@@ -71,3 +71,6 @@ Ankh.NoLoad
 
 #MonoDevelop
 *.pidb
+
+#Releases
+Karbonite*.zip

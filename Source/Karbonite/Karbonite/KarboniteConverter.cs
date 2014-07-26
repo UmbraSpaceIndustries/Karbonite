@@ -1,5 +1,4 @@
-﻿using OpenResourceSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -98,93 +97,6 @@ namespace Karbonite
                 {
                     ConvertAnimation[convertAnimationName].speed = 1;
                     ConvertAnimation.Play(convertAnimationName);
-                }
-            }
-        }
-    }
-
-    public class KarboniteDrill : PartModule
-    {
-        [KSPField]
-        public string deployAnimationName = "Deploy";
-        public string drillAnimationName = "Drill";
-
-        [KSPField]
-        [KSPEvent(guiActive = true, guiName = "Deploy", active = true)]
-        public void DeployDrill()
-        {
-            _isDeployed = true;
-            Events["RetractDrill"].active = false;
-        }
-
-        public void RetractDrill()
-        {
-            _isDeployed = true;
-            Events["RetractDrill"].active = false;
-        }
-        
-        private bool _isDeployed;
-        private bool _isDrilling;
-
-        private List<ORSModuleResourceExtraction> _extractors;
-
-        public Animation DeployAnimation
-        {
-            get
-            {
-                return part.FindModelAnimators(deployAnimationName)[0];
-            }
-        }
-        public Animation DrillAnimation
-        {
-            get
-            {
-                return part.FindModelAnimators(drillAnimationName)[0];
-            }
-        }
-
-        public override void OnStart(PartModule.StartState state)
-        {
-            FindExtractors();
-            DeployAnimation[deployAnimationName].layer = 3;
-            DrillAnimation[drillAnimationName].layer = 3;
-        }
-
-        public override void OnLoad(ConfigNode node)
-        {
-            FindExtractors();
-        }
-
-        public override void OnAwake()
-        {
-            FindExtractors();
-        }
-
-        public override void OnUpdate()
-        {
-            CheckForDrilling();
-            base.OnUpdate();
-        }
-
-        private void FindExtractors()
-        {
-            if (vessel != null)
-            {
-                if (part.Modules.Contains("ORSModuleResourceExtraction"))
-                {
-                    _extractors = part.Modules.OfType<ORSModuleResourceExtraction>().ToList();
-                }
-            }
-        }
-
-        private void CheckForDrilling()
-        {
-            if (_extractors.Any(e => e.IsEnabled))
-            {
-                if (!DrillAnimation.isPlaying)
-                {
-                    DrillAnimation[drillAnimationName].speed = 1;
-                    DrillAnimation.Play(drillAnimationName);
                 }
             }
         }
