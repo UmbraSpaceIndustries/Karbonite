@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 namespace Karbonite
 {
@@ -19,7 +20,9 @@ namespace Karbonite
 		[KSPField()]
 		public float conversionRatio;
 
+		const double smoothingFactor = 0.2;
 
+		double smoothedOutput;
 
 		[KSPEvent(guiActive = true, guiName = "Start Generator")]
 		public void EnableEvent()
@@ -38,25 +41,39 @@ namespace Karbonite
 			currentOutput = 0f;
 		}
 
-		public override void OnUpdate ()
-		{
-			if (running) {
 
-				var dt = TimeWarp.fixedDeltaTime;
-				var space = GetShipResourceSpace ("ElectricCharge");
-				//output at either 1% of availiable space, or the max output value, whichever is lower
-				var targetOutput = Math.Min (0.01f * space, maxOutput * dt);
-				if (targetOutput > 0.01f) {
-					var requiredKarbonite = targetOutput / conversionRatio;
-					var usedKarbonite = part.RequestResource ("Karbonite", requiredKarbonite);
-					var generatedElectricCharge = part.RequestResource ("ElectricCharge", -usedKarbonite * conversionRatio);
-					currentOutput = (float)(-generatedElectricCharge / dt);
-				} 
-				else {
-					currentOutput = 0f;
-				}
+
+		public override void OnStart (StartState state)
+		{
+			if (state != StartState.Editor) {
+				part.force_activate ();
 			}
-			base.OnUpdate ();
+			base.OnStart (state);
+		}
+
+		public override void OnFixedUpdate ()
+		{ 
+
+
+			if (running) {
+				StartCoroutine (UpdateResources ());
+			}
+			base.OnFixedUpdate ();
+		}
+
+		public IEnumerator UpdateResources(){
+			yield return new WaitForFixedUpdate();
+			double dt = TimeWarp.fixedDeltaTime;
+			var space = GetShipResourceSpace ("ElectricCharge");
+			// output at either 50% of availiable space per seccond, or the max output value, whichever is lower.
+			var targetOutput = Math.Min (0.5 * space, maxOutput);
+			//exponetial moving average
+			smoothedOutput = (targetOutput * smoothingFactor) + (1d - smoothingFactor) * smoothedOutput;
+			var output = smoothedOutput > 0 ? smoothedOutput : 0;
+			var requiredKarbonite = (output * dt) / conversionRatio;
+			var usedKarbonite = part.RequestResource ("Karbonite", requiredKarbonite);
+			var generatedElectricCharge = part.RequestResource ("ElectricCharge", -usedKarbonite * conversionRatio);
+			currentOutput = (float)(-generatedElectricCharge / dt);
 		}
 
 		public override string GetInfo ()
