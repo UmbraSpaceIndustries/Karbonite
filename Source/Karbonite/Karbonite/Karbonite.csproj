@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="KarboniteConverter.cs" />
     <Compile Include="KarboniteDrill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

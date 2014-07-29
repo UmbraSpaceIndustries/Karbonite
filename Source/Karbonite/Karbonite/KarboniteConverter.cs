@@ -11,9 +11,9 @@ namespace Karbonite
         [KSPField] 
         public string convertAnimationName = "Convert";
 
+        private List<KarboniteResourceConverter> _converters;
+ 
         private bool _isConverting;
-        private List<ModuleGenerator> _generators;
-
         public Animation ConvertAnimation
         {
             get
@@ -40,58 +40,24 @@ namespace Karbonite
 
         public override void OnUpdate()
         {
-            CheckForSpace();
             CheckForConverting();
             base.OnUpdate();
-        }
-
-        private void CheckForSpace()
-        {
-            foreach (var g in _generators)
-            {
-                foreach(var op in g.outputList)
-                {
-                    var spaceAvailable = GetShipResourceSpace(op.name);
-                    if(spaceAvailable == 0)
-                    {
-                        g.Shutdown();
-                    }
-                }
-            }
-        }
-
-
-        private double GetShipResourceSpace(string resName)
-        {
-            var space = 0d;
-            if(vessel != null)
-            {
-                foreach(var p in vessel.parts)
-                {
-                    if(p.Resources.Contains(resName))
-                    {
-                        var res = p.Resources[resName];
-                        space += (res.maxAmount - res.amount);
-                    }
-                }
-            }
-            return space;
         }
 
         private void FindGenerators()
         {
             if (vessel != null)
             {
-                if (part.Modules.Contains("ModuleGenerator"))
+                if (part.Modules.Contains("KarboniteResourceConverter"))
                 {
-                    _generators = part.Modules.OfType<ModuleGenerator>().ToList();
+                    _converters = part.Modules.OfType<KarboniteResourceConverter>().ToList();
                 } 
             }
         }
 
         private void CheckForConverting()
         {
-            if(_generators.Any(g=>g.generatorIsActive))
+            if (_converters.Any(c => c.converterIsActive))
             {
                 if (!ConvertAnimation.isPlaying)
                 {
