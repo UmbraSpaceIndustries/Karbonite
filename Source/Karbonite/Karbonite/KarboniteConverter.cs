@@ -11,7 +11,7 @@ namespace Karbonite
         [KSPField] 
         public string convertAnimationName = "Convert";
 
-        private List<KarboniteResourceConverter> _converters;
+        private List<USI_ResourceConverter> _converters;
  
         private bool _isConverting;
         public Animation ConvertAnimation
@@ -48,9 +48,9 @@ namespace Karbonite
         {
             if (vessel != null)
             {
-                if (part.Modules.Contains("KarboniteResourceConverter"))
+                if (part.Modules.Contains("USI_ResourceConverter"))
                 {
-                    _converters = part.Modules.OfType<KarboniteResourceConverter>().ToList();
+                    _converters = part.Modules.OfType<USI_ResourceConverter>().ToList();
                 } 
             }
         }
