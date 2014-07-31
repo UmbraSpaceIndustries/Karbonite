@@ -1,4 +1,5 @@
 ﻿using System;
+using LibNoise.Unity.Operator;
 using OpenResourceSystem;
 
 namespace Karbonite
@@ -20,6 +21,9 @@ namespace Karbonite
 
         [KSPField(isPersistant = false, guiActive = true, guiName = "Resource")]
         public string currentresourceStr;
+
+        [KSPField(isPersistant = false)] 
+        public float ecRequirement = 0.1f;
 
         protected float resflowf = 0;
 
@@ -128,13 +132,8 @@ namespace Karbonite
                 {
                     double resourcedensity = PartResourceLibrary.Instance.GetDefinition(atmospheric_resource_name).density;
                     double respcent = ORSAtmosphericResourceHandler.getAtmosphericResourceContent(vessel.mainBody.flightGlobalsIndex, currentresource);
-                    //double resourcedensity = PartResourceLibrary.Instance.GetDefinition(PluginHelper.atomspheric_resources_tocollect[currentresource]).density;
-                    //double respcent = PluginHelper.getAtmosphereResourceContent(vessel.mainBody.flightGlobalsIndex, currentresource);
-
-
                     double airdensity = part.vessel.atmDensity / 1000;
-                    //double powerrequirements = scoopair / 0.15f * 6f;
-
+                    double powerrequirements = scoopair / 0.15f * ecRequirement;
 
                     double airspeed = part.vessel.srf_velocity.magnitude + 40.0;
                     double air = airspeed * airdensity * scoopair / resourcedensity;
@@ -143,14 +142,10 @@ namespace Karbonite
                     if (respcent > 0 && vessel.altitude <= ORSHelper.getMaxAtmosphericAltitude(vessel.mainBody))
                     {
                         double scoopedAtm = air * respcent;
-
-
-                        //float powerreceived = Math.Max(consumeFNResource(powerrequirements * TimeWarp.fixedDeltaTime, "ElectricCharge"), 0);
-                        //float powerpcnt = (float)(powerreceived / powerrequirements / TimeWarp.fixedDeltaTime);
-                        float powerpcnt = 1;//scoopair/TimeWarp.fixedDeltaTime;
-
-                        resflowf = (float)part.RequestResource(atmospheric_resource_name, -scoopedAtm * powerpcnt * TimeWarp.fixedDeltaTime);
+                        float powerreceived = (float)Math.Max(part.RequestResource("ElectricCharge", powerrequirements * TimeWarp.fixedDeltaTime), 0);
+                        float powerpcnt = (float)(powerreceived / powerrequirements / TimeWarp.fixedDeltaTime);
                         resflowf = (float)ORSHelper.fixedRequestResource(part, atmospheric_resource_name, -scoopedAtm * powerpcnt * TimeWarp.fixedDeltaTime);
+                        
                         resflowf = -resflowf / TimeWarp.fixedDeltaTime;
                     }
                 }
