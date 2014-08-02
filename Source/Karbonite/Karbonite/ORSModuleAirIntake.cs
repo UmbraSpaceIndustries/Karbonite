@@ -26,19 +26,15 @@ namespace Karbonite
             {
                 if (autoActivate)
                 {
-                    this.part.force_activate();
+                    //this.part.force_activate();
+                    //DEPRECATED
                 }
             }
         }
 
 
+
         public override void OnUpdate()
-        {
-            resflow = resflowf.ToString("0.0000");
-        }
-
-
-        public override void OnFixedUpdate()
         {
             if (vessel != null)
             {
@@ -54,6 +50,7 @@ namespace Karbonite
                         (float)
                             ORSHelper.fixedRequestResource(part, intakeResourceStr, -scoopedAtm*TimeWarp.fixedDeltaTime);
                     resflowf = -resflowf/TimeWarp.fixedDeltaTime;
+                    resflow = resflowf.ToString("0.0000");
                 }
             }
         }
