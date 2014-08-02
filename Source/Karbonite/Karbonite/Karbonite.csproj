@@ -49,7 +49,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KarboniteParticleExtractor.cs" />
+    <Compile Include="ORSModuleAirIntake.cs" />
     <Compile Include="ORSModuleAirScoop.cs" />
+    <Compile Include="ORSModuleParticleCollector.cs" />
     <Compile Include="KarboniteConverter.cs" />
     <Compile Include="KarboniteDrill.cs" />
     <Compile Include="KarboniteAtmoExtractor.cs" />

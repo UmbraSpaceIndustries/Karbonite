@@ -45,6 +45,7 @@ namespace Karbonite
         {
             get
             {
+                if (drillAnimationName == "") return null;
                 return part.FindModelAnimators(drillAnimationName)[0];
             }
         }
@@ -55,7 +56,10 @@ namespace Karbonite
             FindExtractors();
             CheckAnimationState();
             DeployAnimation[deployAnimationName].layer = 3;
-            DrillAnimation[drillAnimationName].layer = 4;
+            if (drillAnimationName != "")
+            {
+                DrillAnimation[drillAnimationName].layer = 4;
+            }
         }
 
         public override void OnLoad(ConfigNode node)
@@ -66,9 +70,17 @@ namespace Karbonite
 
         public override void OnUpdate()
         {
-            if (!isDeployed)
+            if (vessel != null)
             {
-                DisableExtractors();
+                if (_extractors == null || !_extractors.Any()) FindExtractors();
+                if (!isDeployed)
+                {
+                    DisableExtractors();
+                }
+                else
+                {
+                    EnableExtractors();
+                }
             }
             base.OnUpdate();
         }
@@ -82,7 +94,7 @@ namespace Karbonite
             }
             else
             {
-                SetRetractedState(-1000);                
+                SetRetractedState(-1000);
             }
         }
         private void FindExtractors()
@@ -126,20 +138,20 @@ namespace Karbonite
 
         private void DisableExtractors()
         {
-            if (vessel == null || _extractors == null) return; 
+            if (vessel == null || _extractors == null) return;
             foreach (var e in _extractors)
             {
-                e.isEnabled = false;
-                e.scoopIsEnabled = false;
+                e.isDisabled = true;
+                e.DisableScoop();
             }
         }
 
         private void EnableExtractors()
         {
-            if (vessel == null || _extractors == null) return;
+            if (vessel == null || _extractors == null) return; 
             foreach (var e in _extractors)
             {
-                e.isEnabled = true;
+                e.isDisabled = false;
             }
         }
     }
