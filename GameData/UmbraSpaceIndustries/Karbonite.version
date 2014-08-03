@@ -1,0 +1,18 @@
+{
+	"NAME":"Karbonite",
+	"URL":"https://raw.githubusercontent.com/BobPalmer/Karbonite/master/GameData/UmbraSpaceIndustries/Karbonite.version",
+	"DOWNLOAD":"https://github.com/BobPalmer/Karbonite/releases",
+	"VERSION":
+	{
+		"MAJOR":0,
+		"MINOR":0,
+		"PATCH":12,
+		"BUILD":0
+	},
+	"KSP_VERSION":
+	{
+		"MAJOR":0,
+		"MINOR":24
+		"PATCH":2
+	}
+}
