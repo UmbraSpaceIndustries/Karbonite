@@ -18,22 +18,6 @@ namespace Karbonite
 
         protected float resflowf = 0;
 
-
-        public override void OnStart(PartModule.StartState state)
-        {
-            if (state == StartState.Editor) { return; }
-            if (vessel != null)
-            {
-                if (autoActivate)
-                {
-                    //this.part.force_activate();
-                    //DEPRECATED
-                }
-            }
-        }
-
-
-
         public override void OnUpdate()
         {
             if (vessel != null)
