@@ -30,6 +30,12 @@ namespace Karbonite
 
         protected float resflowf = 0;
 
+		[KSPField(isPersistant = true)]
+		public float railsTime;
+		[KSPField(isPersistant = true)]
+		public float railsFlow;
+		protected float railsPump = 0;
+
         [KSPEvent(guiActive = true, guiName = "Activate Collector", active = true)]
         public void ActivateCollector()
         {
@@ -96,16 +102,24 @@ namespace Karbonite
             ToggleResource();
         }
 
-
         public override void OnStart(PartModule.StartState state)
         {
-            Actions["ToggleResourceAction"].guiName = Events["ToggleResource"].guiName = String.Format("Toggle Resource");
-
+			Actions["ToggleResourceAction"].guiName = Events["ToggleResource"].guiName = String.Format("Toggle Resource");
 
             if (state == StartState.Editor) { return; }
             this.part.force_activate();
-        }
 
+			print("<PARTICLECOLLECTOR> OnStart");
+			if (railsTime > 0)
+			{
+				print("<PARTICLECOLLECTOR> railsTime = " + railsTime);
+				print("<PARTICLECOLLECTOR> HighLogic.CurrentGame.UniversalTime = " + HighLogic.CurrentGame.UniversalTime);
+				print("<PARTICLECOLLECTOR> railsFlow = " + railsFlow);
+				float timeLapsed = (float)(HighLogic.CurrentGame.UniversalTime - railsTime);
+				railsPump = timeLapsed * railsFlow;
+				print("<PARTICLECOLLECTOR> railsPump = " + railsPump);
+			}
+		}
 
         public override void OnUpdate()
         {
@@ -125,11 +139,20 @@ namespace Karbonite
 
         public override void OnFixedUpdate()
         {
+			railsTime = (float) HighLogic.CurrentGame.UniversalTime;
+			railsFlow = 0;
             if (CollectorIsEnabled)
             {
                 string atmospheric_resource_name = ORSAtmosphericResourceHandler.getAtmosphericResourceName(vessel.mainBody.flightGlobalsIndex, currentresource);
                 if (atmospheric_resource_name != null)
                 {
+					if (railsPump > 0)
+					{
+						string pumped = ORSHelper.fixedRequestResource(part, atmospheric_resource_name, -railsPump).ToString("0.0000");
+						print("<PARTICLECOLLECTOR> pumped " + pumped);
+						railsPump = 0;
+					}
+
                     //range is 10% of the atmosphere
                     var range = ORSHelper.getMaxAtmosphericAltitude(vessel.mainBody) * 1.1;
                     double resourcedensity = PartResourceLibrary.Instance.GetDefinition(atmospheric_resource_name).density;
@@ -149,13 +172,16 @@ namespace Karbonite
                                     part.RequestResource("ElectricCharge", powerrequirements*TimeWarp.fixedDeltaTime),
                                     0);
                         float powerpcnt = (float) (powerreceived/powerrequirements/TimeWarp.fixedDeltaTime);
+						railsFlow = (float) CollectedParticles * powerpcnt;
                         resflowf =
                             (float)
                                 ORSHelper.fixedRequestResource(part, atmospheric_resource_name,
                                     -CollectedParticles*powerpcnt*TimeWarp.fixedDeltaTime);
 
                         resflowf = -resflowf/TimeWarp.fixedDeltaTime;
-                    }
+
+					
+					}
                 }
             }
         }
