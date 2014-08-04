@@ -80,8 +80,8 @@ namespace Karbonite
         {
             if (isDeployed && _isDrilling)
             {
-                DisactivateExtractors();
-
+                DisableExtractors();
+                EnableExtractors();
             }
         }
 
@@ -92,7 +92,8 @@ namespace Karbonite
             {
                 if (_isDrilling)
                 {
-                    DisactivateExtractors();
+                    DisableExtractors();
+                    EnableExtractors();
                 }
                 else
                 {
@@ -237,19 +238,7 @@ namespace Karbonite
             {
                 e.IsEnabled = true;
             }
-
             _isDrilling = true;
-        }
-
-        private void DisactivateExtractors()
-        {
-            if (vessel == null || _extractors == null) return;
-            foreach (var e in _extractors)
-            {
-                e.IsEnabled = false;
-            }
-
-            _isDrilling = false;
         }
     }
 }
