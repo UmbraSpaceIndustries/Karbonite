@@ -32,6 +32,40 @@ namespace Karbonite
             SetRetractedState(-1);
         }
 
+
+        [KSPAction("Deploy Drill")]
+        public void DeployDrillAction(KSPActionParam param)
+        {
+            if (!isDeployed)
+            {
+                DeployDrill();
+            }
+        }
+
+
+        [KSPAction("Retract Drill")]
+        public void RetractDrillAction(KSPActionParam param)
+        {
+            if (isDeployed)
+            {
+                RetractDrill();
+            }
+        }
+
+
+        [KSPAction("Toggle Drill")]
+        public void ToggleDrillAction(KSPActionParam param)
+        {
+            if (isDeployed)
+            {
+                RetractDrill();
+            }
+            else
+            {
+                DeployDrill();
+            }
+        }
+
         private List<ORSModuleResourceExtraction> _extractors;
 
         public Animation DeployAnimation
