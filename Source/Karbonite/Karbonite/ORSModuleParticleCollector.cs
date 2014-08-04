@@ -109,15 +109,10 @@ namespace Karbonite
             if (state == StartState.Editor) { return; }
             this.part.force_activate();
 
-			print("<PARTICLECOLLECTOR> OnStart");
 			if (railsTime > 0)
 			{
-				print("<PARTICLECOLLECTOR> railsTime = " + railsTime);
-				print("<PARTICLECOLLECTOR> HighLogic.CurrentGame.UniversalTime = " + HighLogic.CurrentGame.UniversalTime);
-				print("<PARTICLECOLLECTOR> railsFlow = " + railsFlow);
 				float timeLapsed = (float)(HighLogic.CurrentGame.UniversalTime - railsTime);
 				railsPump = timeLapsed * railsFlow;
-				print("<PARTICLECOLLECTOR> railsPump = " + railsPump);
 			}
 		}
 
@@ -148,8 +143,7 @@ namespace Karbonite
                 {
 					if (railsPump > 0)
 					{
-						string pumped = ORSHelper.fixedRequestResource(part, atmospheric_resource_name, -railsPump).ToString("0.0000");
-						print("<PARTICLECOLLECTOR> pumped " + pumped);
+                        ORSHelper.fixedRequestResource(part, atmospheric_resource_name, -railsPump);
 						railsPump = 0;
 					}
 
