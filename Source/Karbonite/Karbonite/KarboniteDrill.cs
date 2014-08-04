@@ -15,7 +15,7 @@ namespace Karbonite
 
         [KSPField(isPersistant = true)]
         private bool isDeployed = false;
-
+        [KSPField(isPersistant = true)]
         private bool _isDrilling;
         
         private StartState _state;
@@ -63,6 +63,41 @@ namespace Karbonite
             else
             {
                 DeployDrill();
+            }
+        }
+
+        [KSPAction("Begin Extraction")]
+        public void BeginExtractionAction(KSPActionParam param)
+        {
+            if (isDeployed && !_isDrilling)
+            {
+                ActivateExtractors();
+            }
+        }
+
+        [KSPAction("Stop Extraction")]
+        public void StopExtractionAction(KSPActionParam param)
+        {
+            if (isDeployed && _isDrilling)
+            {
+                DisactivateExtractors();
+
+            }
+        }
+
+        [KSPAction("Toggle Extraction")]
+        public void ToggleExtractionAction(KSPActionParam param)
+        {
+            if (isDeployed)
+            {
+                if (_isDrilling)
+                {
+                    DisactivateExtractors();
+                }
+                else
+                {
+                    ActivateExtractors();
+                }
             }
         }
 
@@ -183,6 +218,7 @@ namespace Karbonite
                 e.isEnabled = false;
                 e.IsEnabled = false;
             }
+            _isDrilling = false;
         }
 
         private void EnableExtractors()
@@ -192,6 +228,28 @@ namespace Karbonite
             {
                 e.isEnabled = true;
             }
+        }
+
+        private void ActivateExtractors()
+        {
+            if (vessel == null || _extractors == null) return;
+            foreach (var e in _extractors)
+            {
+                e.IsEnabled = true;
+            }
+
+            _isDrilling = true;
+        }
+
+        private void DisactivateExtractors()
+        {
+            if (vessel == null || _extractors == null) return;
+            foreach (var e in _extractors)
+            {
+                e.IsEnabled = false;
+            }
+
+            _isDrilling = false;
         }
     }
 }
