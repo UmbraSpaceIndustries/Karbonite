@@ -25,22 +25,47 @@ namespace Karbonite
 		double smoothedOutput;
 
 		[KSPEvent(guiActive = true, guiName = "Start Generator")]
-		public void EnableEvent()
+        public void StartGenerator()
 		{
-			Events["EnableEvent"].active = false;
-			Events["DisableEvent"].active = true;
+            Events["StartGenerator"].active = false;
+            Events["StopGenerator"].active = true;
 			running = true;
 		}
 
 		[KSPEvent(guiActive = true, guiName = "Stop Generator", active = false)]
-		public void DisableEvent()
+		public void StopGenerator()
 		{
-			Events["EnableEvent"].active = true;
-			Events["DisableEvent"].active = false;
+            Events["StartGenerator"].active = true;
+            Events["StopGenerator"].active = false;
 			running = false;
 			currentOutput = 0f;
 		}
 
+        [KSPAction("Start Generator")]
+        public void StartGeneratorAction(KSPActionParam param)
+        {
+            StartGenerator();
+        }
+        
+        [KSPAction("Stop Generator")]
+        public void StopGeneratorAction(KSPActionParam param)
+        {
+            StopGenerator();
+        }
+
+
+        [KSPAction("Toggle Generator")]
+        public void ToggleGeneratorAction(KSPActionParam param)
+        {
+            if (running)
+            {
+                StopGenerator();
+            }
+            else
+            {
+                StartGenerator();
+            }
+        }
 
 
 		public override void OnStart (StartState state)
