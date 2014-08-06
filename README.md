@@ -10,18 +10,17 @@ Karbonite is based on (and in some cases, extends) the Open Resource System (alr
 CREDITS:
 
 Models/Textures:
-
-Nertea, nli2work, Nazari1382, SpeedyB, RoverDude, WaRi
+* Nertea
+* nli2work
+* Nazari1382
+* SpeedyB
+* RoverDude
+* WaRi
 
 Other Credits:
-
-Alexustas (Our snazzy logo)
-
-Arrowstar (Random PNG generation code)
-
-AshIzat (Generator code)
-
-RoverDude (Other plugin code, Configs, Cat-Herding, and Curation ;))
-
-The KSP Community (For being awesome!)
+* Alexustas (Our snazzy logo)
+* Arrowstar (Random PNG generation code)
+* AshIzat (Generator code)
+* RoverDude (Other plugin code, Configs, Cat-Herding, and Curation ;))
+* The KSP Community (For being awesome!)
 
