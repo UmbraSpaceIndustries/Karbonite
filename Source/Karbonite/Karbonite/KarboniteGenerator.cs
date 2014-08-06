@@ -8,15 +8,15 @@ namespace Karbonite
 		[KSPField(isPersistant = true)]
 		public bool running;
 
-		// Current output in kW
-		[KSPField(guiActive = true, guiName = "Current Output", guiUnits = "kW", guiFormat = "N")]
+		// Current output in MW 
+		[KSPField(guiActive = true, guiName = "Current Output", guiUnits = "MW", guiFormat = "N")]
 		public float currentOutput;
 
-		// Maximum output in kW
-		[KSPField(guiActive = true, guiName = "Maximum Output", guiUnits = "kW", guiFormat = "N")]
+		// Maximum output in MW
+		[KSPField(guiActive = true, guiName = "Maximum Output", guiUnits = "MW", guiFormat = "N")]
 		public float maxOutput;
 
-		// kJ per unit of Karbonite
+		// MJ per unit of Karbonite
 		[KSPField()]
 		public float conversionRatio;
 
@@ -104,7 +104,7 @@ namespace Karbonite
 		public override string GetInfo ()
 		{
 			return string.Format (
-				"- Max Output: {0}kW\n" +
+				"- Max Output: {0}MW\n" +
 				"- Max Karbonite Use: {1}/s",
 				maxOutput,
 				maxOutput/conversionRatio
