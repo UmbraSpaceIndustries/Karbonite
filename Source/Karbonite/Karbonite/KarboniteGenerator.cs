@@ -1,10 +1,24 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 namespace Karbonite
 {
 	public class KarboniteGenerator : PartModule
 	{
+        [KSPField]
+        public string activateAnimationName = "";
+
+        public Animation ActivateAnimation
+        {
+            get
+            {
+                if (activateAnimationName == "") return null;
+                var an = part.FindModelAnimators(activateAnimationName);
+                return an.Any() ? an[0] : null;
+            }
+        }
+
 		[KSPField(isPersistant = true)]
 		public bool running;
 
@@ -30,6 +44,7 @@ namespace Karbonite
             Events["StartGenerator"].active = false;
             Events["StopGenerator"].active = true;
 			running = true;
+            //PlayActiveAnimation(1);
 		}
 
 		[KSPEvent(guiActive = true, guiName = "Stop Generator", active = false)]
@@ -39,6 +54,7 @@ namespace Karbonite
             Events["StopGenerator"].active = false;
 			running = false;
 			currentOutput = 0f;
+            //PlayActiveAnimation(-1);
 		}
 
         [KSPAction("Start Generator")]
@@ -72,14 +88,29 @@ namespace Karbonite
 		{
 			if (state != StartState.Editor) {
 				part.force_activate ();
-			}
+                if (ActivateAnimation != null)
+                {
+                    ActivateAnimation[activateAnimationName].layer = 3;
+                }
+                //CheckAnimationState();
+            }
 			base.OnStart (state);
 		}
 
+        private void CheckAnimationState()
+        {
+            if (running)
+            {
+                PlayActiveAnimation(1000);
+            }
+            else
+            {
+                PlayActiveAnimation(-1000);
+            }
+        }
+
 		public override void OnFixedUpdate ()
 		{ 
-
-
 			if (running) {
 				StartCoroutine (UpdateResources ());
 			}
@@ -128,6 +159,19 @@ namespace Karbonite
 			}
 			return space;
 		}
+
+        private void PlayActiveAnimation(int speed)
+        {
+        //    if (activateAnimationName != "")
+        //    {
+        //        if (speed < 0)
+        //        {
+        //            ActivateAnimation[activateAnimationName].time = ActivateAnimation[activateAnimationName].length;
+        //        }
+        //        ActivateAnimation[activateAnimationName].speed = speed;
+        //        ActivateAnimation.Play(activateAnimationName);
+        //    }
+        }
 	}
 }
 

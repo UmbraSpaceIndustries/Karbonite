@@ -15,6 +15,7 @@ namespace Karbonite
 
         [KSPField(isPersistant = true)]
         private bool isDeployed = false;
+       
         [KSPField(isPersistant = true)]
         private bool _isDrilling;
         
@@ -32,7 +33,6 @@ namespace Karbonite
             SetRetractedState(-1);
         }
 
-
         [KSPAction("Deploy Drill")]
         public void DeployDrillAction(KSPActionParam param)
         {
@@ -41,7 +41,6 @@ namespace Karbonite
                 DeployDrill();
             }
         }
-
 
         [KSPAction("Retract Drill")]
         public void RetractDrillAction(KSPActionParam param)
@@ -115,6 +114,7 @@ namespace Karbonite
         {
             get
             {
+                if (drillAnimationName == "") return null;
                 return part.FindModelAnimators(drillAnimationName)[0];
             }
         }
@@ -125,7 +125,10 @@ namespace Karbonite
             FindExtractors();
             CheckAnimationState();
             DeployAnimation[deployAnimationName].layer = 3;
-            DrillAnimation[drillAnimationName].layer = 4;
+            if (drillAnimationName != "")
+            {
+                DrillAnimation[drillAnimationName].layer = 4;
+            }
         }
 
         public override void OnLoad(ConfigNode node)
@@ -136,13 +139,16 @@ namespace Karbonite
 
         public override void OnUpdate()
         {
-            if (!isDeployed)
+            if (vessel != null)
             {
-                DisableExtractors();
-            }
-            else
-            {
-                CheckForDrilling();
+                if (!isDeployed)
+                {
+                    DisableExtractors();
+                }
+                else
+                {
+                    CheckForDrilling();
+                }
             }
             base.OnUpdate();
         }

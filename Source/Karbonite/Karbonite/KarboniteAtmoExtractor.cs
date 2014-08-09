@@ -16,6 +16,7 @@ namespace Karbonite
         [KSPField(isPersistant = true)]
         private bool isDeployed = false;
 
+        [KSPField(isPersistant = true)]
         private bool _isDrilling;
         
         private StartState _state;
@@ -30,6 +31,74 @@ namespace Karbonite
         public void RetractDrill()
         {
             SetRetractedState(-1);
+        }
+
+        [KSPAction("Deploy Extractor")]
+        public void DeployDrillAction(KSPActionParam param)
+        {
+            if (!isDeployed)
+            {
+                DeployDrill();
+            }
+        }
+
+        [KSPAction("Retract Extractor")]
+        public void RetractDrillAction(KSPActionParam param)
+        {
+            if (isDeployed)
+            {
+                RetractDrill();
+            }
+        }
+
+
+        [KSPAction("Toggle Extractor")]
+        public void ToggleDrillAction(KSPActionParam param)
+        {
+            if (isDeployed)
+            {
+                RetractDrill();
+            }
+            else
+            {
+                DeployDrill();
+            }
+        }
+
+        [KSPAction("Begin Extraction")]
+        public void BeginExtractionAction(KSPActionParam param)
+        {
+            if (isDeployed && !_isDrilling)
+            {
+                ActivateExtractors();
+            }
+        }
+
+        [KSPAction("Stop Extraction")]
+        public void StopExtractionAction(KSPActionParam param)
+        {
+            if (isDeployed && _isDrilling)
+            {
+                DisableExtractors();
+                EnableExtractors();
+            }
+        }
+
+        [KSPAction("Toggle Extraction")]
+        public void ToggleExtractionAction(KSPActionParam param)
+        {
+            if (isDeployed)
+            {
+                if (_isDrilling)
+                {
+                    DisableExtractors();
+                    EnableExtractors();
+                }
+                else
+                {
+                    ActivateExtractors();
+                }
+            }
         }
 
         private List<ORSModuleAirScoop> _extractors;
@@ -72,14 +141,13 @@ namespace Karbonite
         {
             if (vessel != null)
             {
-                if (_extractors == null || !_extractors.Any()) FindExtractors();
                 if (!isDeployed)
                 {
                     DisableExtractors();
                 }
                 else
                 {
-                    EnableExtractors();
+                    CheckForExtracting();
                 }
             }
             base.OnUpdate();
@@ -104,6 +172,18 @@ namespace Karbonite
                 if (part.Modules.Contains("ORSModuleAirScoop"))
                 {
                     _extractors = part.Modules.OfType<ORSModuleAirScoop>().ToList();
+                }
+            }
+        }
+
+        private void CheckForExtracting()
+        {
+            if (_extractors.Any(e => e.scoopIsEnabled) && isDeployed)
+            {
+                if (!DrillAnimation.isPlaying)
+                {
+                    DrillAnimation[drillAnimationName].speed = 1;
+                    DrillAnimation.Play(drillAnimationName);
                 }
             }
         }
@@ -153,6 +233,16 @@ namespace Karbonite
             {
                 e.isDisabled = false;
             }
+        }
+
+        private void ActivateExtractors()
+        {
+            if (vessel == null || _extractors == null) return;
+            foreach (var e in _extractors)
+            {
+                e.ActivateScoop();
+            }
+            _isDrilling = true;
         }
     }
 }
