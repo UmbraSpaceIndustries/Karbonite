@@ -34,7 +34,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\KSP_DEV\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OpenResourceSystem_1_1_0">
+    <Reference Include="OpenResourceSystem_1_1_0, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\KSP_DEV\GameData\OpenResourceSystem\Plugins\OpenResourceSystem_1_1_0.dll</HintPath>
     </Reference>
     <Reference Include="System" />

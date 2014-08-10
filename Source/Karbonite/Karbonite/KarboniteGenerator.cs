@@ -1,23 +1,33 @@
 using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 namespace Karbonite
 {
 	public class KarboniteGenerator : PartModule
 	{
         [KSPField]
-        public string activateAnimationName = "";
+        public string startAnimationName = "";
 
-        public Animation ActivateAnimation
+        [KSPField]
+        public string activeAnimationName = "";
+
+        public Animation StartAnimation
         {
             get
             {
-                if (activateAnimationName == "") return null;
-                var an = part.FindModelAnimators(activateAnimationName);
-                return an.Any() ? an[0] : null;
+                if (startAnimationName == "") return null;
+                return part.FindModelAnimators(startAnimationName)[0];
             }
         }
+        public Animation ActiveAnimation
+        {
+            get
+            {
+                if (activeAnimationName == "") return null;
+                return part.FindModelAnimators(activeAnimationName)[0];
+            }
+        }
+
 
 		[KSPField(isPersistant = true)]
 		public bool running;
@@ -44,18 +54,18 @@ namespace Karbonite
             Events["StartGenerator"].active = false;
             Events["StopGenerator"].active = true;
 			running = true;
-            //PlayActiveAnimation(1);
-		}
+            PlayStartAnimation(1);
+        }
 
 		[KSPEvent(guiActive = true, guiName = "Stop Generator", active = false)]
 		public void StopGenerator()
 		{
             Events["StartGenerator"].active = true;
             Events["StopGenerator"].active = false;
-			running = false;
-			currentOutput = 0f;
-            //PlayActiveAnimation(-1);
-		}
+            running = false;
+            currentOutput = 0f;
+            PlayStartAnimation(-1);
+        }
 
         [KSPAction("Start Generator")]
         public void StartGeneratorAction(KSPActionParam param)
@@ -88,34 +98,78 @@ namespace Karbonite
 		{
 			if (state != StartState.Editor) {
 				part.force_activate ();
-                if (ActivateAnimation != null)
+                if (startAnimationName != "")
                 {
-                    ActivateAnimation[activateAnimationName].layer = 3;
+                    StartAnimation[startAnimationName].layer = 3;
                 }
-                //CheckAnimationState();
+                if (activeAnimationName != "")
+                {
+                    ActiveAnimation[activeAnimationName].layer = 4;
+                }
+                CheckAnimationState();
             }
 			base.OnStart (state);
 		}
 
-        private void CheckAnimationState()
-        {
-            if (running)
-            {
-                PlayActiveAnimation(1000);
-            }
-            else
-            {
-                PlayActiveAnimation(-1000);
-            }
-        }
+	    public override void OnLoad(ConfigNode node)
+	    {
+	        CheckAnimationState();
+            base.OnLoad(node);
+	    }
 
-		public override void OnFixedUpdate ()
-		{ 
-			if (running) {
-				StartCoroutine (UpdateResources ());
-			}
+	    private void CheckAnimationState()
+	    {
+	        if (running)
+	        {
+                PlayStartAnimation(1000);    
+	        }
+	        else
+	        {
+                PlayStartAnimation(-1000);    
+	        }
+	    }
+
+	    public override void OnFixedUpdate ()
+		{
+		    try
+		    {
+                if (running)
+                {
+                    StartCoroutine(UpdateResources());
+                    PlayActiveAnimation();
+                }
+            }
+		    catch (Exception ex)
+		    {
+		        print("[KAR] Error in OnFixedUpdate of KarbointeGenerator - " + ex.Message);
+		    }
 			base.OnFixedUpdate ();
 		}
+
+	    private void PlayActiveAnimation()
+	    {
+	        if (activeAnimationName != "" && running)
+	        {
+                if (!ActiveAnimation.isPlaying && !StartAnimation.isPlaying)
+                {
+                    ActiveAnimation[activeAnimationName].speed = 1;
+                    ActiveAnimation.Play(activeAnimationName);
+                }
+            }
+	    }
+
+        private void PlayStartAnimation(int speed)
+        {
+            if (startAnimationName != "")
+            {
+                if (speed < 0)
+                {
+                    StartAnimation[startAnimationName].time = StartAnimation[startAnimationName].length;
+                }
+                StartAnimation[startAnimationName].speed = speed;
+                StartAnimation.Play(startAnimationName);
+            }
+        }
 
 		public IEnumerator UpdateResources(){
 			yield return new WaitForFixedUpdate();
@@ -159,19 +213,6 @@ namespace Karbonite
 			}
 			return space;
 		}
-
-        private void PlayActiveAnimation(int speed)
-        {
-        //    if (activateAnimationName != "")
-        //    {
-        //        if (speed < 0)
-        //        {
-        //            ActivateAnimation[activateAnimationName].time = ActivateAnimation[activateAnimationName].length;
-        //        }
-        //        ActivateAnimation[activateAnimationName].speed = speed;
-        //        ActivateAnimation.Play(activateAnimationName);
-        //    }
-        }
 	}
 }
 
