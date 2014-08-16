@@ -56,8 +56,10 @@
     <Compile Include="ORSModuleParticleCollector.cs" />
     <Compile Include="KarboniteDrill.cs" />
     <Compile Include="KarboniteAtmoExtractor.cs" />
+    <Compile Include="ORSModuleRailsExtraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KarboniteGenerator.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

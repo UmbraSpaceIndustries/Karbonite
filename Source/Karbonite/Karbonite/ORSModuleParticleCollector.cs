@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using LibNoise.Unity.Operator;
 using OpenResourceSystem;
+using UnityEngine;
 
 namespace Karbonite
 {
@@ -29,6 +30,7 @@ namespace Karbonite
         public string resflow;
 
         protected float resflowf = 0;
+        private double lastUpdateTime = 0.0f;
 
         [KSPEvent(guiActive = true, guiName = "Activate Collector", active = true)]
         public void ActivateCollector()
@@ -140,21 +142,39 @@ namespace Karbonite
                         && respcent > 0 
                         && vessel.altitude >= ORSHelper.getMaxAtmosphericAltitude(vessel.mainBody))
                     {
+                        /** RAILS **/
+                        if (Time.timeSinceLevelLoad < 1.0f || !FlightGlobals.ready)
+                        {
+                            return;
+                        }
+
+                        if (lastUpdateTime == 0.0f)
+                        {
+                            // Just started running
+                            lastUpdateTime = Planetarium.GetUniversalTime();
+                            return;
+                        }
+
+                        double deltaTime = Math.Min(Planetarium.GetUniversalTime() - lastUpdateTime, Utilities.MaxDeltaTime);
+                        lastUpdateTime += deltaTime;
+                        /** RAILS **/
+
+
                         double powerrequirements = particleRate/0.15f*ecRequirement;
                         double particles = particleRate/resourcedensity;
                         double CollectedParticles = particles*respcent;
                         float powerreceived =
                             (float)
                                 Math.Max(
-                                    part.RequestResource("ElectricCharge", powerrequirements*TimeWarp.fixedDeltaTime),
+                                    part.RequestResource("ElectricCharge", powerrequirements * Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime)),
                                     0);
-                        float powerpcnt = (float) (powerreceived/powerrequirements/TimeWarp.fixedDeltaTime);
+                        float powerpcnt = (float)(powerreceived / powerrequirements / Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime));
                         resflowf =
                             (float)
                                 ORSHelper.fixedRequestResource(part, atmospheric_resource_name,
-                                    -CollectedParticles*powerpcnt*TimeWarp.fixedDeltaTime);
+                                    -CollectedParticles*powerpcnt*deltaTime);
 
-                        resflowf = -resflowf/TimeWarp.fixedDeltaTime;
+                        resflowf = -resflowf/(float)deltaTime;
                     }
                 }
             }
@@ -164,6 +184,18 @@ namespace Karbonite
         public override string getResourceManagerDisplayName()
         {
             return "Atmospheric Collector";
+        }
+
+        public override void OnLoad(ConfigNode node)
+        {
+            base.OnLoad(node);
+            lastUpdateTime = Utilities.GetValue(node, "lastUpdateTime", lastUpdateTime);
+        }
+
+        public override void OnSave(ConfigNode node)
+        {
+            base.OnSave(node);
+            node.AddValue("lastUpdateTime", lastUpdateTime);
         }
     }
 }
