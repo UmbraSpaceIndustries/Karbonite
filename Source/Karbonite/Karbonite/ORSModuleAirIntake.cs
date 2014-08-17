@@ -14,7 +14,7 @@ namespace Karbonite
         public string resflow;
 
         [KSPField(isPersistant = false)]
-        public string intakeResourceStr = "ScoopedAir";
+        public string intakeResourceStr = "IntakeAtm";
 
         protected float resflowf = 0;
 

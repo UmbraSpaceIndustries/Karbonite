@@ -161,14 +161,19 @@ namespace Karbonite
 
 
                         double powerrequirements = particleRate/0.15f*ecRequirement;
+                        double desiredPower = powerrequirements * TimeWarp.fixedDeltaTime;
+                        double maxPower = powerrequirements * Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime);
+                        var powerRequested = Math.Min(desiredPower, maxPower);                        
+
+
                         double particles = particleRate/resourcedensity;
                         double CollectedParticles = particles*respcent;
                         float powerreceived =
                             (float)
                                 Math.Max(
-                                    part.RequestResource("ElectricCharge", powerrequirements * Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime)),
+                                    part.RequestResource("ElectricCharge", powerRequested),
                                     0);
-                        float powerpcnt = (float)(powerreceived / powerrequirements / Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime));
+                        float powerpcnt = (float)(powerreceived / desiredPower);
                         resflowf =
                             (float)
                                 ORSHelper.fixedRequestResource(part, atmospheric_resource_name,

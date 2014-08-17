@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LibNoise.Unity.Operator;
 using OpenResourceSystem;
 using UnityEngine;
 
@@ -161,17 +162,23 @@ namespace Karbonite
 
 
                 double electrical_power_provided = 0;
+                double desiredPower = power_requirements * TimeWarp.fixedDeltaTime;
+                double maxPower = power_requirements * Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime);
+
+                var powerRequested = Math.Min(desiredPower, maxPower);
+             
+
                 if (resourceManaged)
                 {
-                    electrical_power_provided = consumeFNResource(power_requirements * Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime), resourceToUse);
+                    electrical_power_provided = consumeFNResource(powerRequested, resourceToUse);
                 }
                 else
                 {
-                    electrical_power_provided = part.RequestResource(resourceToUse, power_requirements * Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime));
+                    electrical_power_provided = part.RequestResource(resourceToUse, powerRequested);
                 }
                 if (power_requirements > 0)
                 {
-                    electrical_power_ratio = electrical_power_provided / Math.Max(Utilities.ElectricityMaxDeltaTime, TimeWarp.fixedDeltaTime) / power_requirements;
+                    electrical_power_ratio = electrical_power_provided / desiredPower;
                 }
                 else
                 {
