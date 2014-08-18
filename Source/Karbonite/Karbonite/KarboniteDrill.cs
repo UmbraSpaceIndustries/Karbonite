@@ -101,7 +101,7 @@ namespace Karbonite
             }
         }
 
-        private List<ORSModuleResourceExtraction> _extractors;
+        private List<ORSModuleRailsExtraction> _extractors;
 
         public Animation DeployAnimation
         {
@@ -169,9 +169,9 @@ namespace Karbonite
         {
             if (vessel != null)
             {
-                if (part.Modules.Contains("ORSModuleResourceExtraction"))
+                if (part.Modules.Contains("ORSModuleRailsExtraction"))
                 {
-                    _extractors = part.Modules.OfType<ORSModuleResourceExtraction>().ToList();
+                    _extractors = part.Modules.OfType<ORSModuleRailsExtraction>().ToList();
                 }
             }
         }
