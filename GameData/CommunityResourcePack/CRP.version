@@ -1,14 +1,14 @@
 {
-     "NAME":"Karbonite",
+     "NAME":"Community Resource Pack",
      "GITHUB":{
          "USERNAME":"BobPalmer",
-         "REPOSITORY":"Karbonite",
+         "REPOSITORY":"CommunityResourcePack",
          "ALLOW_PRE_RELEASE":false,
      },
      "VERSION":{
          "MAJOR":0,
-         "MINOR":3,
-         "PATCH":3,
+         "MINOR":1,
+         "PATCH":0,
          "BUILD":0
      },
      "KSP_VERSION":{
