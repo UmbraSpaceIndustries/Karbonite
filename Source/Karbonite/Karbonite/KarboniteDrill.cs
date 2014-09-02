@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OpenResourceSystem;
+using ORSExtensions;
 using UnityEngine;
 
 namespace Karbonite
@@ -178,7 +178,7 @@ namespace Karbonite
 
         private void CheckForDrilling()
         {
-            if (_extractors.Any(e => e.IsEnabled) && isDeployed)
+            if (_extractors.Any(e => e.IsEnabled) && _isDrilling)
             {
                 if (!DrillAnimation.isPlaying)
                 {

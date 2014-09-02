@@ -22,9 +22,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\OUTPUT\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,9 +33,17 @@
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\KSP_DEV\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="OpenResourceSystem_1_2_0">
-      <HintPath>..\..\..\..\..\..\..\..\KSP_DEV\GameData\OpenResourceSystem\Plugins\OpenResourceSystem_1_2_0.dll</HintPath>
+    <Reference Include="OpenResourceSystem_1_2_0, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\UmbraSpaceIndustries\LIB\OpenResourceSystem_1_2_0.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ORSExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\UmbraSpaceIndustries\OUTPUT\ORSExtensions.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,19 +54,16 @@
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\KSP_DEV\KSP_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KarboniteScanner.cs" />
     <Compile Include="KarboniteParticleExtractor.cs" />
-    <Compile Include="ORSModuleAirIntake.cs" />
-    <Compile Include="ORSModuleAirScoop.cs" />
-    <Compile Include="ORSModuleParticleCollector.cs" />
     <Compile Include="KarboniteDrill.cs" />
     <Compile Include="KarboniteAtmoExtractor.cs" />
-    <Compile Include="ORSModuleRailsExtraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KarboniteGenerator.cs" />
-    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
