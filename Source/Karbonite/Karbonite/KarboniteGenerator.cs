@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace Karbonite
 {
@@ -31,6 +33,14 @@ namespace Karbonite
 
 		[KSPField(isPersistant = true)]
 		public bool running;
+        [KSPField(guiActive = true, guiName = "rem. time")]
+	    public string remainingTimeDisplay;
+        [KSPField(guiActive = true, guiName = "charged in")]
+        public string remainingChargeTimeDisplay;
+	    private int remTimeUpdateCounter = 0;
+	    private double lastConsumptionRate;
+	    //private double lastOutputRate;
+	    private const string NotAvailable = "n.a.";
 
 		// Current output in MW 
 		[KSPField(guiActive = true, guiName = "Current Output", guiUnits = "MW", guiFormat = "N")]
@@ -65,7 +75,10 @@ namespace Karbonite
             running = false;
             currentOutput = 0f;
             PlayStartAnimation(-1);
-        }
+
+		    remainingTimeDisplay = NotAvailable;
+		    remainingChargeTimeDisplay = NotAvailable;
+		}
 
         [KSPAction("Start Generator")]
         public void StartGeneratorAction(KSPActionParam param)
@@ -108,6 +121,8 @@ namespace Karbonite
                 }
                 CheckAnimationState();
             }
+		    remainingTimeDisplay = NotAvailable;
+		    remainingChargeTimeDisplay = NotAvailable;
 			base.OnStart (state);
 		}
 
@@ -184,7 +199,65 @@ namespace Karbonite
 			var usedKarbonite = part.RequestResource ("Karbonite", requiredKarbonite);
 			var generatedElectricCharge = part.RequestResource ("ElectricCharge", -usedKarbonite * conversionRatio);
 			currentOutput = (float)(-generatedElectricCharge / dt);
+            this.UpdateRemainingTimeDisplay(usedKarbonite, space, currentOutput, dt);
 		}
+
+	    private void UpdateRemainingTimeDisplay(double usedKarbonite, double ecSpace, float currOutput, double timeDelta)
+	    {
+	        if (remTimeUpdateCounter > 0)
+	        {
+	            remTimeUpdateCounter--;
+	        }
+	        remTimeUpdateCounter = 60;
+            string guiNamePart;
+	        var currConsumption = usedKarbonite/timeDelta;
+            var resDef = PartResourceLibrary.Instance.GetDefinition("Karbonite");	        
+	        if (currConsumption > 0)
+	        {
+                lastConsumptionRate = currConsumption;
+	            guiNamePart = " (curr. rate)";
+	        }
+	        else
+	        {
+                currConsumption = lastConsumptionRate;
+	            guiNamePart = " (last rate)";
+	        }
+	        if (resDef != null)
+	        {
+                var resources = new List<PartResource>();
+                this.part.GetConnectedResources(resDef.id, resDef.resourceFlowMode, resources);
+	            var availKarbonite = resources.Sum(r => r.amount);
+	            var remSecs = availKarbonite/currConsumption;
+                var days = remSecs / 21600;
+                if (days > 1)
+                {
+                    remainingTimeDisplay = string.Format("{0:#0.#} days", days);
+                }
+                else
+                {
+                    var timespan = TimeSpan.FromSeconds(remSecs);
+                    remainingTimeDisplay = string.Format("{0:D2}:{1:D2}:{2:D2}", timespan.Hours, timespan.Minutes, timespan.Seconds);
+                    remTimeUpdateCounter = 5;
+                }
+	        }
+	        else
+	        {
+	            remainingTimeDisplay = NotAvailable;
+	        }
+            var remSecsLoad = currOutput>0 ? (ecSpace-(currOutput*timeDelta)) / currOutput : 0;
+            var daysLoad = remSecsLoad / 21600;
+            if (daysLoad > 1)
+            {
+                remainingChargeTimeDisplay = string.Format("{0:#0.#} days", daysLoad);
+            }
+            else
+            {
+                var timespan = TimeSpan.FromSeconds(remSecsLoad);
+                remainingChargeTimeDisplay = string.Format("{0:D2}:{1:D2}:{2:D2}", timespan.Hours, timespan.Minutes, timespan.Seconds);
+                remTimeUpdateCounter = 5;
+            }
+            this.Fields["remainingTimeDisplay"].guiName = "rem. time" + guiNamePart;
+	    }
 
 		public override string GetInfo ()
 		{
