@@ -39,7 +39,6 @@ namespace Karbonite
         public string remainingChargeTimeDisplay;
 	    private int remTimeUpdateCounter = 0;
 	    private double lastConsumptionRate;
-	    //private double lastOutputRate;
 	    private const string NotAvailable = "n.a.";
 
 		// Current output in MW 
