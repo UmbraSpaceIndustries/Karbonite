@@ -147,6 +147,7 @@ namespace Karbonite
                 }
                 else
                 {
+                    _isDrilling = _extractors.Any(e => e.IsEnabled);
                     CheckForDrilling();
                 }
             }
@@ -178,7 +179,7 @@ namespace Karbonite
 
         private void CheckForDrilling()
         {
-            if (_extractors.Any(e => e.IsEnabled) && _isDrilling)
+            if (_isDrilling)
             {
                 if (!DrillAnimation.isPlaying)
                 {
