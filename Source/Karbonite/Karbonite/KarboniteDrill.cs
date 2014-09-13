@@ -225,6 +225,7 @@ namespace Karbonite
             {
                 e.isEnabled = false;
                 e.IsEnabled = false;
+                e.ResetLastUpdateTime();
             }
             _isDrilling = false;
         }
