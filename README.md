@@ -7,6 +7,8 @@ Karbonite's goal is to provide a permissively licensed, community driven ISRU (i
 
 Karbonite is based on (and in some cases, extends) the Open Resource System (already familiar to folks who use KSP-I, and MKS/OKS) and combines it with new code, some amazing community driven parts, and a license that encourages sharing and extension.
 
+There is also a [forum thread](http://forum.kerbalspaceprogram.com/threads/87335).
+
 CREDITS:
 
 Models/Textures:
@@ -24,3 +26,11 @@ Other Credits:
 * RoverDude (Other plugin code, Configs, Cat-Herding, and Curation ;))
 * The KSP Community (For being awesome!)
 
+## License
+
+Karbonite is released under the CC-BY-SA-NC 4.0 license.
+
+Karbonite is bundled with other components which may be under different
+licenses.
+
+See the various license files in this directory for full details.
