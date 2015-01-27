@@ -1,6 +1,6 @@
 {
      "NAME":"USI Tools",
-	 "URL":"https://raw.githubusercontent.com/BobPalmer/UmbraSpaceIndustries/master/GameData/UmbraSpaceIndustries/USI.version"
+	 "URL":"https://raw.githubusercontent.com/BobPalmer/UmbraSpaceIndustries/master/GameData/000_USITools/USI.version"
 	 "DOWNLOAD":"https://github.com/BobPalmer/UmbraSpaceIndustries/releases"
      "GITHUB":{
          "USERNAME":"BobPalmer",
@@ -10,7 +10,7 @@
      "VERSION":{
          "MAJOR":0,
          "MINOR":3,
-         "PATCH":1,
+         "PATCH":2,
          "BUILD":0
      },
      "KSP_VERSION":{
