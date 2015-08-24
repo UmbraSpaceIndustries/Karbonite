@@ -1,3 +1,10 @@
+0.6.4 - 2015.08.24
+------------------
+Corrected issue with Oxidizer converter
+Added missing Propfan sounds
+Added four new propfan engines (fore/aft for KA/LF)
+
+
 0.6.3 - 2015.07.30
 ------------------
 Corrected node on 0.625m Karbonite engine
