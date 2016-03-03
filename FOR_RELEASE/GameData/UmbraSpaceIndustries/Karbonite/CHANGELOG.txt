@@ -1,3 +1,7 @@
+0.6.8 - 2016.03.02
+------------------
+Updated various dependencies
+
 0.6.7 - 2016.01.18
 ------------------
 Updated various dependencies
