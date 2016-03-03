@@ -1,3 +1,23 @@
+0.6.3 - 2016.03.02
+------------------
+Logistics pulls are now restricted to warehouses
+Warehouses can be toggled
+
+0.6.2 - 2016.02.05
+------------------
+Added support for Blizzy's Toolbar (thanks nanathan!)
+
+0.6.1 - 2016.02.02
+------------------
+Fixed an issue where distributed warehouses were excessively greedy
+
+0.6.0 - 2016.02.01
+------------------
+Added new module for structural supports (versus horribly abusing fairings)
+Auto-Repairer part module added (for use with USI-LS and UKS)
+Added the concept of global bonuses to prevent circular references (i.e. between kolonization and life support)
+Added custom layers to USI Animation
+
 0.5.5 - 2016.01.18
 ------------------
 Inflatable fuel tank module
