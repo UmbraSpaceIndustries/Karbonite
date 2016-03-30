@@ -1,3 +1,7 @@
+0.7.0 - 2016.03.29
+------------
+Compatibility with KSP 1.1
+
 0.6.8 - 2016.03.02
 ------------------
 Updated various dependencies
@@ -20,7 +24,6 @@ Added in core reactors and kontainers
 Corrected issue with Oxidizer converter
 Added missing Propfan sounds
 Added four new propfan engines (fore/aft for KA/LF)
-
 
 0.6.3 - 2015.07.30
 ------------------
