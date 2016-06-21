@@ -1,3 +1,11 @@
+0.7.4 - (KSP 1.1.3)
+------------------
+Dependency Updates
+
+0.7.4 - (KSP 1.1.3)
+------------------
+Dependency Updates
+
 0.7.3 - 2016.05.14
 ------------------
 Dependency Updates
