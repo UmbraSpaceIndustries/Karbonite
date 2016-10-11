@@ -1,3 +1,9 @@
+0.8.0 - (KSP 1.2)
+------------------
+Interim fix for landing leg - this has been moved to act like a basic stabilizer (i.e. an animation vs. using the new wheel code).  So for now, use the animation and bind to the landing gear action group.  A more permanent solution will be evaluated at a later date.
+Fixed an issue where the intake transform for the atmospheric scoops was reversed
+Karry Kans now include monopropellant
+
 0.7.4 - (KSP 1.1.3)
 ------------------
 Dependency Updates
