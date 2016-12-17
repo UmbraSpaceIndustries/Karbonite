@@ -1,3 +1,8 @@
+0.8.4 - (KSP 1.2.2)
+-------------------
+Updates for KSP 1.2.2
+Fusion Drives have had their CTT nodes moved (Thanks Kaa253!)
+
 0.8.3 - (KSP 1.2.1)
 -------------------
 KarbonitePlus has been merged into Karbonite (One less download!)  The folder remains the same so you can remove it with a delete.
