@@ -1,3 +1,8 @@
+0.8.9 - 2017.05.06
+------------------
+Corrected bad node in the 5m torch drive (Thanks toric55!)
+Stat overhaul on all air breathing engines (thanks JadeOfMaar!)
+
 0.8.8 - 2017.03.17
 -------------------
 Dependency Updates
