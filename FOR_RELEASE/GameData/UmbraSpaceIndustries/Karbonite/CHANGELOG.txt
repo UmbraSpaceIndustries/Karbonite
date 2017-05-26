@@ -1,5 +1,6 @@
-0.8.9 - 2017.05.06
+0.9.0 - KSP 1.3
 ------------------
+KSP 1.3 Compatibility
 Corrected bad node in the 5m torch drive (Thanks toric55!)
 Stat overhaul on all air breathing engines (thanks JadeOfMaar!)
 
