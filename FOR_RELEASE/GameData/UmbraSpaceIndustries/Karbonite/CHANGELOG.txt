@@ -1,3 +1,8 @@
+0.12.0 - 2018.03.13
+-----------------
+KSP 1.4.1 Compatibility
+Fixed duplicate configs, balance on the LiquidFuel engines (Thanks AccidentalDisassembly!)
+
 0.11.0 - 2018.03.07
 ------------------
 KSP 1.4.0 Compatibility
