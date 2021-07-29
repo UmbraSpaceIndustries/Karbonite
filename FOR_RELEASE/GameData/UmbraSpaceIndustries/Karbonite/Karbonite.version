@@ -1,9 +1,9 @@
 {
      "NAME":"Karbonite",
-     "URL":"https://raw.githubusercontent.com/BobPalmer/Karbonite/master/FOR_RELEASE/GameData/UmbraSpaceIndustries/Karbonite/Karbonite.version",
-     "DOWNLOAD":"https://github.com/BobPalmer/Karbonite/releases",
+     "URL":"https://raw.githubusercontent.com/UmbraSpaceIndustries/Karbonite/master/FOR_RELEASE/GameData/UmbraSpaceIndustries/Karbonite/Karbonite.version",
+     "DOWNLOAD":"https://github.com/UmbraSpaceIndustries/Karbonite/releases",
      "GITHUB":{
-         "USERNAME":"BobPalmer",
+         "USERNAME":"UmbraSpaceIndustries",
          "REPOSITORY":"Karbonite",
          "ALLOW_PRE_RELEASE":false
      },
