@@ -1,3 +1,9 @@
+112.0 - 2021.09.19
+------------------
+Karborundum is now on Moho
+Karborundum exospheric band moved to be in line with (roughly) Moho's orbit
+Oceanic Karborundum on Eve
+
 1.4.0 - 2020.12.20
 ------------------
 KSP 1.11 Compatibility
