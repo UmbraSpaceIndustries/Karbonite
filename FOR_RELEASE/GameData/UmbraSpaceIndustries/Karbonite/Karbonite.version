@@ -1,22 +1,22 @@
 {
      "NAME":"Karbonite",
-     "URL":"https://raw.githubusercontent.com/BobPalmer/Karbonite/master/FOR_RELEASE/GameData/UmbraSpaceIndustries/Karbonite/Karbonite.version",
-     "DOWNLOAD":"https://github.com/BobPalmer/Karbonite/releases",
+     "URL":"https://raw.githubusercontent.com/UmbraSpaceIndustries/Karbonite/main/FOR_RELEASE/GameData/UmbraSpaceIndustries/Karbonite/Karbonite.version",
+     "DOWNLOAD":"https://github.com/UmbraSpaceIndustries/Karbonite/releases",
      "GITHUB":{
-         "USERNAME":"BobPalmer",
+         "USERNAME":"UmbraSpaceIndustries",
          "REPOSITORY":"Karbonite",
          "ALLOW_PRE_RELEASE":false
      },
      "VERSION":{
-         "MAJOR":1,
-         "MINOR":4,
-         "PATCH":0,
+         "MAJOR":112,
+         "MINOR":0,
+         "PATCH":1,
          "BUILD":0
      },
      "KSP_VERSION":{
          "MAJOR":1,
-         "MINOR":11,
-         "PATCH":0
+         "MINOR":12,
+         "PATCH":3
      },
      "KSP_VERSION_MIN":{
          "MAJOR":1,
@@ -25,7 +25,7 @@
      },
      "KSP_VERSION_MAX":{
          "MAJOR":1,
-         "MINOR":11,
+         "MINOR":12,
          "PATCH":99
      }
  } 
