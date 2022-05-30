@@ -139,7 +139,7 @@ pipeline {
           Copy-Item -Path (Join-Path -Path $UsiCachePath -ChildPath "USICore") -Destination ./artifacts/GameData/UmbraSpaceIndustries -Recurse
         '''
         script {
-          env.ARCHIVE_FILENAME = "Konstruction_${env.GITVERSION_SEMVER}.zip"
+          env.ARCHIVE_FILENAME = "Karbonite_${env.GITVERSION_SEMVER}.zip"
           zip dir: "artifacts", zipFile: "${env.ARCHIVE_FILENAME}", archive: true
         }
       }
